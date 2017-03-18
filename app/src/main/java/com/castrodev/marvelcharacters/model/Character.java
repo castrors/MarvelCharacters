@@ -34,6 +34,10 @@ public class Character {
     @SerializedName("urls")
     private List<Url> mUrls;
 
+    public Character(String name){
+        mName = name;
+    }
+
     public Comics getComics() {
         return mComics;
     }
