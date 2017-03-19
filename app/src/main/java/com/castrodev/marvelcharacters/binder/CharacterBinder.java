@@ -5,7 +5,6 @@ import android.databinding.ObservableArrayList;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.castrodev.marvelcharacters.adapter.CharactersAdapter;
@@ -30,7 +29,7 @@ public class CharacterBinder {
 
     @BindingAdapter({"bind:imageUrl", "bind:error"})
     public static void loadImage(ImageView view, String url, Drawable error) {
-        Log.e("LOG_TAG", url);
+//        Log.e("LOG_TAG", url);
         Picasso.with(view.getContext()).load(url).error(error).into(view);
     }
 

@@ -1,12 +1,16 @@
 
 package com.castrodev.marvelcharacters.model;
 
-import javax.annotation.Generated;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class Url {
+public class Url implements Parcelable {
 
     @SerializedName("type")
     private String mType;
@@ -29,4 +33,34 @@ public class Url {
         mUrl = url;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mType);
+        dest.writeString(this.mUrl);
+    }
+
+    public Url() {
+    }
+
+    protected Url(Parcel in) {
+        this.mType = in.readString();
+        this.mUrl = in.readString();
+    }
+
+    public static final Parcelable.Creator<Url> CREATOR = new Parcelable.Creator<Url>() {
+        @Override
+        public Url createFromParcel(Parcel source) {
+            return new Url(source);
+        }
+
+        @Override
+        public Url[] newArray(int size) {
+            return new Url[size];
+        }
+    };
 }

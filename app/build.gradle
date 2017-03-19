@@ -20,6 +20,21 @@ android {
     dataBinding {
         enabled = true
     }
+
+    productFlavors {
+        mock {
+            applicationIdSuffix = ".mock"
+        }
+        prod {
+
+        }
+    }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'TIME_STAMP_PARAM', TimeStampParam
+        it.buildConfigField 'String', 'API_KEY_PARAM', ApiKeyParam
+        it.buildConfigField 'String', 'HASH_PARAM', HashParam
+    }
 }
 
 dependencies {
@@ -36,6 +51,9 @@ dependencies {
     compile 'javax.annotation:javax.annotation-api:1.2'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
 
     testCompile 'junit:junit:4.12'

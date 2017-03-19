@@ -2,17 +2,15 @@ package com.castrodev.marvelcharacters.repository.Implementation;
 
 import android.content.Context;
 
-import com.castrodev.marvelcharacters.R;
-import com.castrodev.marvelcharacters.model.Character;
+import com.castrodev.marvelcharacters.api.ApiClient;
+import com.castrodev.marvelcharacters.api.ApiInterface;
+import com.castrodev.marvelcharacters.handlers.CharacterRequestCallback;
 import com.castrodev.marvelcharacters.model.MarvelCharactersData;
 import com.castrodev.marvelcharacters.repository.Interface.MarvelCharactersRespository;
-import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rodrigocastro on 04/03/17.
@@ -22,24 +20,22 @@ public class MarvelCharactersRepositoryImpl extends MarvelCharactersRespository 
 
 
     @Override
-    public MarvelCharactersData getMarvelCharactersData(Context context) {
-        InputStream inputStream = context.getResources().openRawResource(R.raw.marvel_api_mock);
-        Reader reader = new BufferedReader(new InputStreamReader(inputStream));
+    public void getMarvelCharactersData(Context context, final CharacterRequestCallback callback) {
 
-        Gson gson = new Gson();
-        return gson.fromJson(reader, MarvelCharactersData.class);
-    }
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
 
-    @Override
-    public Character getMarvelCharacterById(Context context, Long id) {
-
-        MarvelCharactersData marvelCharactersData = getMarvelCharactersData(context);
-        List<Character> characters = marvelCharactersData.getData().getCharacters();
-        for (Character character : characters) {
-            if (character.getId().equals(id)) {
-                return character;
+        Call<MarvelCharactersData> call = apiService.fetchCharacters(ApiClient.getData());
+        call.enqueue(new Callback<MarvelCharactersData>() {
+            @Override
+            public void onResponse(Call<MarvelCharactersData> call, Response<MarvelCharactersData> response) {
+                callback.onRequestDone(response.body());
             }
-        }
-        return new Character("");
+
+            @Override
+            public void onFailure(Call<MarvelCharactersData> call, Throwable t) {
+                callback.onRequestError();
+            }
+        });
     }
 }

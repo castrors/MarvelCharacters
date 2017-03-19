@@ -15,7 +15,7 @@ import com.castrodev.marvelcharacters.handlers.CharacterClickListener;
 import com.castrodev.marvelcharacters.view.CharacterDetailView;
 import com.castrodev.marvelcharacters.viewmodel.CharacterViewModel;
 
-import static com.castrodev.marvelcharacters.view.CharacterDetailView.CHARACTER_ID;
+import static com.castrodev.marvelcharacters.view.CharacterDetailView.CHARACTER_MODEL;
 
 public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.ViewHolder> {
 
@@ -51,7 +51,7 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
             @Override
             public void onCharacterClick(View view) {
                 Intent intent = new Intent(context, CharacterDetailView.class);
-                intent.putExtra(CHARACTER_ID, character.getId());
+                intent.putExtra(CHARACTER_MODEL, character.getModel());
                 context.startActivity(intent);
             }
         });

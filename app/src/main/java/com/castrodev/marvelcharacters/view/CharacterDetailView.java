@@ -7,12 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import com.castrodev.marvelcharacters.R;
 import com.castrodev.marvelcharacters.databinding.CharacterDetailViewBinding;
 import com.castrodev.marvelcharacters.model.Character;
-import com.castrodev.marvelcharacters.repository.Repository;
 import com.castrodev.marvelcharacters.viewmodel.CharacterViewModel;
 
 public class CharacterDetailView extends AppCompatActivity {
 
-    public static final String CHARACTER_ID = "CHARACTER_ID";
+    public static final String CHARACTER_MODEL = "CHARACTER_MODEL";
     private CharacterViewModel characterViewModel;
     private CharacterDetailViewBinding binding;
 
@@ -20,19 +19,17 @@ public class CharacterDetailView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Long characterId = null;
+        Character character = null;
         Bundle bundle = getIntent().getExtras();
-        if (bundle.containsKey(CHARACTER_ID)) {
-            characterId = bundle.getLong(CHARACTER_ID);
+        if (bundle.containsKey(CHARACTER_MODEL)) {
+            character = bundle.getParcelable(CHARACTER_MODEL);
         }
 
-        Character character = Repository.providesCharactersRepository().getMarvelCharacterById(this, characterId);
         characterViewModel = new CharacterViewModel(character);
-
-        binding = DataBindingUtil.setContentView(this, R.layout.character_detail_view);
+        getSupportActionBar().setTitle(characterViewModel.getName());
+        binding = DataBindingUtil.setContentView(CharacterDetailView.this, R.layout.character_detail_view);
         binding.setCharacter(characterViewModel);
 
-        getSupportActionBar().setTitle(characterViewModel.getName());
 
     }
 
