@@ -2,6 +2,7 @@ package com.castrodev.marvelcharacters.repository.Interface;
 
 import android.content.Context;
 
+import com.castrodev.marvelcharacters.model.Character;
 import com.castrodev.marvelcharacters.model.MarvelCharactersData;
 
 /**
@@ -10,4 +11,6 @@ import com.castrodev.marvelcharacters.model.MarvelCharactersData;
 
 public abstract class MarvelCharactersRespository {
     public abstract MarvelCharactersData getMarvelCharactersData(Context context);
+
+    public abstract Character getMarvelCharacterById(Context context, Long id);
 }

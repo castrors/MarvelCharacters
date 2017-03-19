@@ -1,19 +1,25 @@
 package com.castrodev.marvelcharacters.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.castrodev.marvelcharacters.handlers.CharacterClickListener;
 import com.castrodev.marvelcharacters.R;
 import com.castrodev.marvelcharacters.databinding.ItemCharacterBinding;
+import com.castrodev.marvelcharacters.handlers.CharacterClickListener;
+import com.castrodev.marvelcharacters.view.CharacterDetailView;
 import com.castrodev.marvelcharacters.viewmodel.CharacterViewModel;
 
+import static com.castrodev.marvelcharacters.view.CharacterDetailView.CHARACTER_ID;
+
 public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.ViewHolder> {
+
+    private final Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ItemCharacterBinding binder;
@@ -26,7 +32,8 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
 
     private ObservableArrayList<CharacterViewModel> list;
 
-    public CharactersAdapter(ObservableArrayList<CharacterViewModel> l) {
+    public CharactersAdapter(Context context, ObservableArrayList<CharacterViewModel> l) {
+        this.context = context;
         list = l;
     }
 
@@ -37,13 +44,15 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final CharacterViewModel character = list.get(position);
         holder.binder.setCharacter(character);
         holder.binder.setClick(new CharacterClickListener() {
             @Override
             public void onCharacterClick(View view) {
-                Log.e("TAG_LOG", character.getName());
+                Intent intent = new Intent(context, CharacterDetailView.class);
+                intent.putExtra(CHARACTER_ID, character.getId());
+                context.startActivity(intent);
             }
         });
         holder.binder.executePendingBindings();

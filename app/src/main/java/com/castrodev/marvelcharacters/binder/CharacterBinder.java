@@ -25,7 +25,7 @@ public class CharacterBinder {
         view.setLayoutManager(sglm);
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
 //        view.setLayoutManager(layoutManager);
-        view.setAdapter(new CharactersAdapter(characters));
+        view.setAdapter(new CharactersAdapter(view.getContext(), characters));
     }
 
     @BindingAdapter({"bind:imageUrl", "bind:error"})
